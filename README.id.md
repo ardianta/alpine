@@ -15,15 +15,15 @@ Anggap saja seperti [Tailwind](https://tailwindcss.com/) untuk Javascript.
 
 ## Terjemahan Dokumentasi
 
-| Bahasa | Link dokumentasi |
-| --- | --- |
-| Bahasa Indonesia | [**Dokumentation in Bahasa Indonesia**](./README.id.md) |
-| Cina Tradisional | [**繁體中文說明文件**](./README.zh-TW.md) |
-| Jerman | [**Dokumentation in Deutsch**](./README.de.md) |
-| Jepang | [**日本語ドキュメント**](./README.ja.md) |
-| Rusia | [**Документация на русском**](./README.ru.md) |
-| Portugis | [**Documentação em Português**](./README.pt.md) |
-| Spanyol | [**Documentación en Español**](./README.es.md) |
+| Bahasa           | Link for documentation                                   |
+| ---------------- | -------------------------------------------------------- |
+| Jepang           | [**日本語ドキュメント**](./README.ja.md)                 |
+| Cina Tradisional | [**繁體中文說明文件**](./README.zh-TW.md)                |
+| Rusia            | [**Документация на русском**](./README.ru.md)            |
+| Portugis         | [**Dokumentasi dalam Portugis**](./README.pt.md)         |
+| Spanyol          | [**Dokumentasi dalam Bahasa Spanyol**](./README.es.md)   |
+| Jerman           | [**Dokumentasi dalam Bahasa Jerman**](./README.de.md)    |
+| Indonesia        | [**Dokumentasi dalam Bahasa Indonesia**](./README.id.md) |
 
 ## Instalasi
 
@@ -114,33 +114,33 @@ Anda bahkan dapat menggunakannya untuk hal-hal yang kompleks:
 Tedapat 14 direktif yang tersedia untuk anda:
 
 
-| Direktif | Deskripsi |
-| --- | --- |
-| [`x-data`](#x-data) | Deklarasi sebuah batasan komponen baru. |
-| [`x-init`](#x-init) | Jalankan sebuah ekspresi saat komponen dipersiapkan. |
-| [`x-show`](#x-show) | Ganti `display: none;` pada elemen berdasarkan expresi (true atau false). |
-| [`x-bind`](#x-bind) | Menetapkan nilai pada sebuah atribut dengan hasil ekspresi Javascript|
-| [`x-on`](#x-on) | Memberikan sebuah event listener pada elemen. Menjalankan expresi javascript saat terjadi sebuah event.|
-| [`x-model`](#x-model) | Menambahkan "data binding dua-arah" pada sebuah elemen. Menjaga agar elemen input tetap tersinkron dengan data komponen. |
-| [`x-text`](#x-text) | Cara kerjannya mirip seperti `x-bind`, tapi akan mengubah teks (`innerText`) di dalam elemen. |
-| [`x-html`](#x-html) | Cara kerjannya mirip seperti `x-bind`, tapi akan mengubah kode HTML (`innerHTML`) dari elemen. |
-| [`x-ref`](#x-ref) | Cara mudah untuk mengambil elemen DOM yang berada di luar komponen. |
-| [`x-if`](#x-if) | Hapus elemen sepenuhnya dari DOM. Harus digunakan pada tag `<template>`. |
-| [`x-for`](#x-for) | Buat simpul DOM baru untuk setiap item dalam larik. Harus digunakan pada tag `<template>`. |
-| [`x-transition`](#x-transition) | Direktif untuk menerapkan kelas ke berbagai tahapan transisi elemen |
-| [`x-spread`](#x-spread) | Memungkinkan Anda mengikat objek direktif Alpine ke elemen agar dapat digunakan kembali dengan lebih baik |
-| [`x-cloak`](#x-cloak) | Atribut ini dihapus saat Alpine menginisialisasi. Berguna untuk menyembunyikan DOM yang telah diinisialisasi sebelumnya. |
+| Direktif                        | Deskripsi                                                                                                                |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| [`x-data`](#x-data)             | Deklarasi sebuah batasan komponen baru.                                                                                  |
+| [`x-init`](#x-init)             | Jalankan sebuah ekspresi saat komponen dipersiapkan.                                                                     |
+| [`x-show`](#x-show)             | Ganti `display: none;` pada elemen berdasarkan expresi (true atau false).                                                |
+| [`x-bind`](#x-bind)             | Menetapkan nilai pada sebuah atribut dengan hasil ekspresi Javascript                                                    |
+| [`x-on`](#x-on)                 | Memberikan sebuah event listener pada elemen. Menjalankan expresi javascript saat terjadi sebuah event.                  |
+| [`x-model`](#x-model)           | Menambahkan "data binding dua-arah" pada sebuah elemen. Menjaga agar elemen input tetap tersinkron dengan data komponen. |
+| [`x-text`](#x-text)             | Cara kerjannya mirip seperti `x-bind`, tapi akan mengubah teks (`innerText`) di dalam elemen.                            |
+| [`x-html`](#x-html)             | Cara kerjannya mirip seperti `x-bind`, tapi akan mengubah kode HTML (`innerHTML`) dari elemen.                           |
+| [`x-ref`](#x-ref)               | Cara mudah untuk mengambil elemen DOM yang berada di luar komponen.                                                      |
+| [`x-if`](#x-if)                 | Hapus elemen sepenuhnya dari DOM. Harus digunakan pada tag `<template>`.                                                 |
+| [`x-for`](#x-for)               | Buat simpul DOM baru untuk setiap item dalam larik. Harus digunakan pada tag `<template>`.                               |
+| [`x-transition`](#x-transition) | Direktif untuk menerapkan kelas ke berbagai tahapan transisi elemen                                                      |
+| [`x-spread`](#x-spread)         | Memungkinkan Anda mengikat objek direktif Alpine ke elemen agar dapat digunakan kembali dengan lebih baik                |
+| [`x-cloak`](#x-cloak)           | Atribut ini dihapus saat Alpine menginisialisasi. Berguna untuk menyembunyikan DOM yang telah diinisialisasi sebelumnya. |
 
 Dan ada 6 properti ajaib:
 
-| Properti ajaib | Deskripsi |
-| --- | --- |
-| [`$el`](#el) |  Ambil simpul DOM komponen akar. |
-| [`$refs`](#refs) | Ambil elemen DOM yang ditandai dengan `x-ref` di dalam komponen. |
-| [`$event`](#event) | Mengambil objek "Event" native browser dalam event listener.  |
-| [`$dispatch`](#dispatch) | Buat `CustomEvent` dan kirim menggunakan `.dispatchEvent() `secara internal. |
-| [`$nextTick`](#nexttick) | Jalankan ekspresi tertentu SETELAH Alpine membuat pembaruan DOM reaktifnya. |
-| [`$watch`](#watch) | Akan mengaktifkan callback yang diberikan saat properti komponen yang Anda "awasi" berubah. |
+| Properti ajaib           | Deskripsi                                                                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------- |
+| [`$el`](#el)             | Ambil simpul DOM komponen akar.                                                             |
+| [`$refs`](#refs)         | Ambil elemen DOM yang ditandai dengan `x-ref` di dalam komponen.                            |
+| [`$event`](#event)       | Mengambil objek "Event" native browser dalam event listener.                                |
+| [`$dispatch`](#dispatch) | Buat `CustomEvent` dan kirim menggunakan `.dispatchEvent() `secara internal.                |
+| [`$nextTick`](#nexttick) | Jalankan ekspresi tertentu SETELAH Alpine membuat pembaruan DOM reaktifnya.                 |
+| [`$watch`](#watch)       | Akan mengaktifkan callback yang diberikan saat properti komponen yang Anda "awasi" berubah. |
 
 
 ## Sponsor
@@ -238,17 +238,17 @@ Jika Anda ingin menjalankan kode SETELAH Alpine selesai membuat pembaruan awal k
 </div>
 ```
 
-| Direktif | Deskripsi |
-| --- | --- |
-| `x-show.transition` | Fade dan skala simultan. (opasitas, skala: 0,95, fungsi waktu: kubik-bezier (0,4, 0,0, 0,2, 1), durasi masuk: 150 md, durasi habis: 75 md)
-| `x-show.transition.in` | Hanya transisi masuk. |
-| `x-show.transition.out` | Hanya transisi keluar |
-| `x-show.transition.opacity` | Gunakan fade saja. |
-| `x-show.transition.scale` | Gunakan skala saja |
-| `x-show.transition.scale.75` | Kustomisasi transformasi skala CSS `transform: scale(.75)`. |
-| `x-show.transition.duration.200ms` | Setel transisi "masuk" ke 200ms. Keluaran akan disetel menjadi setengahnya (100 md). |
-| `x-show.transition.origin.top.right` | Sesuaikan asal transformasi CSS `transform-origin: top right`. |
-| `x-show.transition.in.duration.200ms.out.duration.50ms` | Durasi berbeda untuk "masuk" dan "keluar". |
+| Direktif                                                | Deskripsi                                                                                                                                  |
+| ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `x-show.transition`                                     | Fade dan skala simultan. (opasitas, skala: 0,95, fungsi waktu: kubik-bezier (0,4, 0,0, 0,2, 1), durasi masuk: 150 md, durasi habis: 75 md) |
+| `x-show.transition.in`                                  | Hanya transisi masuk.                                                                                                                      |
+| `x-show.transition.out`                                 | Hanya transisi keluar                                                                                                                      |
+| `x-show.transition.opacity`                             | Gunakan fade saja.                                                                                                                         |
+| `x-show.transition.scale`                               | Gunakan skala saja                                                                                                                         |
+| `x-show.transition.scale.75`                            | Kustomisasi transformasi skala CSS `transform: scale(.75)`.                                                                                |
+| `x-show.transition.duration.200ms`                      | Setel transisi "masuk" ke 200ms. Keluaran akan disetel menjadi setengahnya (100 md).                                                       |
+| `x-show.transition.origin.top.right`                    | Sesuaikan asal transformasi CSS `transform-origin: top right`.                                                                             |
+| `x-show.transition.in.duration.200ms.out.duration.50ms` | Durasi berbeda untuk "masuk" dan "keluar".                                                                                                 |
 
 > Catatan: Semua pengubah transisi ini dapat digunakan bersama satu sama lain. Ini dimungkinkan (meskipun konyol lol): `x-show.transition.in.duration.100ms.origin.top.right.opacity.scale.85.out.duration.200ms.origin.bottom.left.opacity.scale. 95`
 
@@ -602,14 +602,14 @@ Alpine memberikan 6 macam direktif transisi untuk menggunakan class tertentu pad
 
 Perilakunya benar-benar sama seperti transisi pada VueJS, namun punya beberapa perbedaan dengan nama yang lebih masuk akal:
 
-| Direktif | Deksripsi |
-| --- | --- |
-| `:enter` | Digunakan selama dalam pase entering. |
-| `:enter-start` | Ditambahkan sebelum elemen dimasukkan, dihapus satu frame setelah elemen dimasukkan. |
-| `:enter-end` | Menambahkan satu frame setelah elemen dimasukkan (pada saat yang sama `enter-start` dihapus), dihapus ketika transisi/animasi selesai.
-| `:leave` | Digunakan sllama dalam pase leaving. |
-| `:leave-start` | Ditambahkan segera saat transisi leaving dipicu, hapus satu frame setelahnya |
-| `:leave-end` | Menambahkan satu frame setelah transisi leave dipicu (pada saat yang sama `leave-start` dihapus), dihapus ketika transisi/animasi selesai.
+| Direktif       | Deksripsi                                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `:enter`       | Digunakan selama dalam pase entering.                                                                                                      |
+| `:enter-start` | Ditambahkan sebelum elemen dimasukkan, dihapus satu frame setelah elemen dimasukkan.                                                       |
+| `:enter-end`   | Menambahkan satu frame setelah elemen dimasukkan (pada saat yang sama `enter-start` dihapus), dihapus ketika transisi/animasi selesai.     |
+| `:leave`       | Digunakan sllama dalam pase leaving.                                                                                                       |
+| `:leave-start` | Ditambahkan segera saat transisi leaving dipicu, hapus satu frame setelahnya                                                               |
+| `:leave-end`   | Menambahkan satu frame setelah transisi leave dipicu (pada saat yang sama `leave-start` dihapus), dihapus ketika transisi/animasi selesai. |
 
 ---
 
