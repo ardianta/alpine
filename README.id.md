@@ -240,19 +240,19 @@ Jika Anda ingin menjalankan kode SETELAH Alpine selesai membuat pembaruan awal k
 
 | Direktif | Deskripsi |
 | --- | --- |
-| `x-show.transition` | A simultaneous fade and scale. (opacity, scale: 0.95, timing-function: cubic-bezier(0.4, 0.0, 0.2, 1), duration-in: 150ms, duration-out: 75ms)
-| `x-show.transition.in` | Only transition in. |
-| `x-show.transition.out` | Only transition out. |
-| `x-show.transition.opacity` | Only use the fade. |
-| `x-show.transition.scale` | Only use the scale. |
-| `x-show.transition.scale.75` | Customize the CSS scale transform `transform: scale(.75)`. |
-| `x-show.transition.duration.200ms` | Sets the "in" transition to 200ms. The out will be set to half that (100ms). |
-| `x-show.transition.origin.top.right` | Customize the CSS transform origin `transform-origin: top right`. |
-| `x-show.transition.in.duration.200ms.out.duration.50ms` | Different durations for "in" and "out". |
+| `x-show.transition` | Fade dan skala simultan. (opasitas, skala: 0,95, fungsi waktu: kubik-bezier (0,4, 0,0, 0,2, 1), durasi masuk: 150 md, durasi habis: 75 md)
+| `x-show.transition.in` | Hanya transisi masuk. |
+| `x-show.transition.out` | Hanya transisi keluar |
+| `x-show.transition.opacity` | Gunakan fade saja. |
+| `x-show.transition.scale` | Gunakan skala saja |
+| `x-show.transition.scale.75` | Kustomisasi transformasi skala CSS `transform: scale(.75)`. |
+| `x-show.transition.duration.200ms` | Setel transisi "masuk" ke 200ms. Keluaran akan disetel menjadi setengahnya (100 md). |
+| `x-show.transition.origin.top.right` | Sesuaikan asal transformasi CSS `transform-origin: top right`. |
+| `x-show.transition.in.duration.200ms.out.duration.50ms` | Durasi berbeda untuk "masuk" dan "keluar". |
 
-> Note: All of these transition modifiers can be used in conjunction with each other. This is possible (although ridiculous lol): `x-show.transition.in.duration.100ms.origin.top.right.opacity.scale.85.out.duration.200ms.origin.bottom.left.opacity.scale.95`
+> Catatan: Semua pengubah transisi ini dapat digunakan bersama satu sama lain. Ini dimungkinkan (meskipun konyol lol): `x-show.transition.in.duration.100ms.origin.top.right.opacity.scale.85.out.duration.200ms.origin.bottom.left.opacity.scale. 95`
 
-> Note: `x-show` will wait for any children to finish transitioning out. If you want to bypass this behavior, add the `.immediate` modifer:
+> Catatan: `x-show` akan menunggu sampai setiap anak menyelesaikan transisi keluar. Jika Anda ingin mengabaikan perilaku ini, tambahkan modifer `.immediate`:
 ```html
 <div x-show.immediate="open">
     <div x-show.transition="open">
@@ -264,167 +264,183 @@ Jika Anda ingin menjalankan kode SETELAH Alpine selesai membuat pembaruan awal k
 
 > Note: You are free to use the shorter ":" syntax: `:type="..."`
 
-**Example:** `<input x-bind:type="inputType">`
+> Catatan: Anda bebas menggunakan sintaks ":" yang lebih pendek: `:type=" ... "`
 
-**Structure:** `<input x-bind:[attribute]="[expression]">`
+**Contoh:** `<input x-bind:type="inputType">`
 
-`x-bind` sets the value of an attribute to the result of a JavaScript expression. The expression has access to all the keys of the component's data object, and will update every-time its data is updated.
+**Struktur:** `<input x-bind:[attribute]="[expression]">`
 
-> Note: attribute bindings ONLY update when their dependencies update. The framework is smart enough to observe data changes and detect which bindings care about them.
+`x-bind` menetapkan nilai atribut ke hasil ekspresi JavaScript. Ekspresi memiliki akses ke semua kunci dari objek data komponen, dan akan diperbarui setiap kali datanya diperbarui.
 
-**`x-bind` for class attributes**
+> Catatan: Binding atribut HANYA diperbarui ketika dependensinya diperbarui. Framework ini cukup pintar untuk mengamati perubahan data dan mendeteksi binding mana yang mempedulikannya.
 
-`x-bind` behaves a little differently when binding to the `class` attribute.
+**`x-bind` untuk atribut class**
 
-For classes, you pass in an object whose keys are class names, and values are boolean expressions to determine if those class names are applied or not.
+`x-bind` punya perilaku sedikit berbeda saaat melakukan binding dengan atribut `class`.
 
-For example:
+Untuk kelas, Anda meneruskan objek yang kuncinya adalah nama kelas, dan nilai adalah ekspresi boolean untuk menentukan apakah nama kelas tersebut diterapkan atau tidak.
+
+Untuk nama class yang anda berikan sebagai key dari object dan nilainya berupa ekspresi boolean, maka ini akan menentukan class ini digunakan atau tidak.
+
+Sebagai contoh:
 `<div x-bind:class="{ 'hidden': foo }"></div>`
 
-In this example, the "hidden" class will only be applied when the value of the `foo` data attribute is `true`.
+Pada contoh ini, class `"hidden"` hanya akan dipakai saat nilai dari data atribut `foo` adalah `true`
 
-**`x-bind` for boolean attributes**
+**`x-bind` untuk atribut boolean**
+
+`x-bind` mendukung atribut boolean dengan cara yang sama seperti atribut nilai, yakni dengan menggunakan sebuah varibel sebagai kondisi ekspresi javascript dimana nilainya akan `true` dan `false.
 
 `x-bind` supports boolean attributes in the same way as value attributes, using a variable as the condition or any JavaScript expression that resolves to `true` or `false`.
 
-For example:
+Sebagai contoh:
 ```html
-<!-- Given: -->
+<!-- diberkan: -->
 <button x-bind:disabled="myVar">Click me</button>
 
-<!-- When myVar == true: -->
+<!-- Saat myVar == true: -->
 <button disabled="disabled">Click me</button>
 
-<!-- When myVar == false: -->
+<!-- Saat myVar == false: -->
 <button>Click me</button>
 ```
 
-This will add or remove the `disabled` attribute when `myVar` is true or false respectively.
+Ini akan menambahkan atribut `disabled` ketika `myVar` bernilai `true` dan sebaliknya akan menghapus atribut `disabled` ketika `myVar` bernilai `false`.
 
-Boolean attributes are supported as per the [HTML specification](https://html.spec.whatwg.org/multipage/indices.html#attributes-3:boolean-attribute), for example `disabled`, `readonly`, `required`, `checked`, `hidden`, `selected`, `open`, etc.
+Atribut boolean yang didukung sama seperti [HTML specification](https://html.spec.whatwg.org/multipage/indices.html#attributes-3:boolean-attribute), contohnya `disabled`, `readonly`, `required`, `checked`, `hidden`, `selected`, `open`, dll.
 
-> Note: If you need a false state to show for your attribute, such as `aria-*`, chain `.toString()` to the value while binding to the attribute. For example: `:aria-expanded="isOpen.toString()"` would persist whether  `isOpen` was `true` or `false`.
 
-**`.camel` modifier**
-**Example:** `<svg x-bind:view-box.camel="viewBox">`
+> Catatan: Jika Anda memerlukan status false untuk ditampilkan untuk atribut Anda, seperti `aria-*`, chain` .toString()` ke nilai saat mengikat ke atribut. Misalnya: `:aria-expanded="isOpen.toString()"` akan tetap ada apakah `isOpen` adalah `true` atau` false`.
 
-The `camel` modifier will bind to the camel case equivalent of the attribute name. In the example above, the value of `viewBox` will be bound the `viewBox` attribute as opposed to the `view-box` attribute.
+**modifier `.camel`**
+**Contoh:** `<svg x-bind:view-box.camel="viewBox">`
+
+Modifier `camel` akan mengikat ke huruf besar/kecil yang setara dengan nama atribut. Pada contoh di atas, nilai `viewBox` akan terikat pada atribut` viewBox` sebagai lawan dari atribut `view-box`.
 
 ---
 
 ### `x-on`
 
-> Note: You are free to use the shorter "@" syntax: `@click="..."`
+> Catatan: Anda bebas menggunakan singkatan "@" untuk sintak yang lebih singkat: `@click="..."`
 
-**Example:** `<button x-on:click="foo = 'bar'"></button>`
+**Contoh:** `<button x-on:click="foo = 'bar'"></button>`
 
-**Structure:** `<button x-on:[event]="[expression]"></button>`
+**Struktur:** `<button x-on:[event]="[expression]"></button>`
 
-`x-on` attaches an event listener to the element it's declared on. When that event is emitted, the JavaScript expression set as its value is executed.
+`x-on` memberikan event listener ke elemen tempat dideklarasikan. Saat terjadi sebuah event, maka nilainya akan diberikan dari ekspresi javascript yang dieksekusi.
 
-If any data is modified in the expression, other element attributes "bound" to this data, will be updated.
+Jika ada data yang dimodifikasi pada ekspresi, meka elemen yang sudah "mengikat" terhadap data tersebut akan diupdate.
 
-> Note: You can also specify a JavaScript function name
+> Catatan: Anda juga bisa memberikan dengan nama fungsi javascript
 
-**Example:** `<button x-on:click="myFunction"></button>`
+**Contoh:** `<button x-on:click="myFunction"></button>`
 
-This is equivalent to: `<button x-on:click="myFunction($event)"></button>`
+Ini sama seperti: `<button x-on:click="myFunction($event)"></button>`
 
-**`keydown` modifiers**
+**modifier `keydown`**
 
-**Example:** `<input type="text" x-on:keydown.escape="open = false">`
+**Contoh:** `<input type="text" x-on:keydown.escape="open = false">`
 
-You can specify specific keys to listen for using keydown modifiers appended to the `x-on:keydown` directive. Note that the modifiers are kebab-cased versions of `Event.key` values.
+Anda bisa menentukan tombol tertentu untuk dipantau dengan menggunakan modifier keydown dengan cara menambahkan direktif tombol di belakang `x-on:keydown`. Perlu dicatat, modifier ini menggunakan kebab-case yang merupakan versi dari nilai `Event.key`.
 
-Examples: `enter`, `escape`, `arrow-up`, `arrow-down`
+Contoh: `enter`, `escape`, `arrow-up`, `arrow-down`
 
-> Note: You can also listen for system-modifier key combinations like: `x-on:keydown.cmd.enter="foo"`
+> Catatan: Anda juga bisa memantau tombol kombinasi dari modifier-sistem seperti: `x-on:keydown.cmd.enter="foo"`
 
-**`.away` modifier**
+**Modifier `.away`**
 
-**Example:** `<div x-on:click.away="showModal = false"></div>`
+**Contoh:** `<div x-on:click.away="showModal = false"></div>`
 
-When the `.away` modifier is present, the event handler will only be executed when the event originates from a source other than itself, or its children.
+Ketika diberikan modifier `.away`, maka event handler hanya akan diekseskusi saat event berasal dari selain dirinya sendiri (elemen itu sendiri) dan turunannya (elemen anaknya).
 
-This is useful for hiding dropdowns and modals when a user clicks away from them.
+Ini sangat berguna untuk menghilangkan dropdown dan modal saat user melakukan klik di luar dari elemen.
 
-**`.prevent` modifier**
-**Example:** `<input type="checkbox" x-on:click.prevent>`
+**modifier `.prevent`**
+**Contoh:** `<input type="checkbox" x-on:click.prevent>`
 
-Adding `.prevent` to an event listener will call `preventDefault` on the triggered event. In the above example, this means the checkbox wouldn't actually get checked when a user clicks on it.
+Menambahakn modifier `.prevent` pada event listener akan memanggil `preventDefault` saat terjadi sebuah event. Pada contoh di atas, checkbox tidak akan dicek saat user melakukan klik.
 
-**`.stop` modifier**
-**Example:** `<div x-on:click="foo = 'bar'"><button x-on:click.stop></button></div>`
+**modifier `.stop`**
+**Contoh:** `<div x-on:click="foo = 'bar'"><button x-on:click.stop></button></div>`
 
-Adding `.stop` to an event listener will call `stopPropagation` on the triggered event. In the above example, this means the "click" event won't bubble from the button to the outer `<div>`. Or in other words, when a user clicks the button, `foo` won't be set to `'bar'`.
+Menambahkan modifier `.stop` pada event listener akan memanggil `stopPropagation` saat terjadi sebuah event. Pada contoh di atas, artinya event "click" tidak akan mengembang dari tombol ke `<div>`, atau dengan katalain saat user klik tombol, maka `foo` tidak akan diset nilainya menjadi `bar`.
 
-**`.self` modifier**
-**Example:** `<div x-on:click.self="foo = 'bar'"><button></button></div>`
 
-Adding `.self` to an event listener will only trigger the handler if the `$event.target` is the element itself. In the above example, this means the "click" event that bubbles from the button to the outer `<div>` will **not** run the handler.
+**modifier `.self`**
+**Contoh:** `<div x-on:click.self="foo = 'bar'"><button></button></div>`
 
-**`.window` modifier**
-**Example:** `<div x-on:resize.window="isOpen = window.outerWidth > 768 ? false : open"></div>`
+Menambahkan modifier `.self` pada sebuah event listener maka hanya akan memicu event handler jika `$event.target` adalah elemen itu sendiri. Pada contoh di atas, event "click" yang dari elemen tombol tidak akan menjalankan event handler pada `<div>`.
 
-Adding `.window` to an event listener will install the listener on the global window object instead of the DOM node on which it is declared. This is useful for when you want to modify component state when something changes with the window, like the resize event. In this example, when the window grows larger than 768 pixels wide, we will close the modal/dropdown, otherwise maintain the same state.
+**modifier `.window`**
+**Contoh:** `<div x-on:resize.window="isOpen = window.outerWidth > 768 ? false : open"></div>`
 
->Note: You can also use the `.document` modifier to attach listeners to `document` instead of `window`
+Menambahkan modifier `.window` pada event listener akan memasang event listener pada objek global window bukan pada elemen DOM yang menjadi tempat event tersebut dideklarasikan. Ini sangat berguna saat anda ingin memodifikasi state dari komponen ketika ada perubahan pada jendela browser, misalnya seperti event resize. Pada contoh di atas, saat jendela browser diperbesar menjadi 768 piksel, maka kita akan menutup modal/dropdown, selain dari itu akan tetap dibuka.
 
-**`.once` modifier**
-**Example:** `<button x-on:mouseenter.once="fetchSomething()"></button>`
 
-Adding the `.once` modifier to an event listener will ensure that the listener will only be handled once. This is useful for things you only want to do once, like fetching HTML partials and such.
+>Catatan: Anda juga bisa menggunakan modifier `.document` untuk menambahkan event listener pada dokumen
 
-**`.passive` modifier**
-**Example:** `<button x-on:mousedown.passive="interactive = true"></button>`
 
-Adding the `.passive` modifier to an event listener will make the listener a passive one, which means `preventDefault()` will not work on any events being processed, this can help, for example with scroll performance on touch devices.
+**modifier `.once`**
+**Contoh:** `<button x-on:mouseenter.once="fetchSomething()"></button>`
 
-**`.debounce` modifier**
-**Example:** `<input x-on:input.debounce="fetchSomething()">`
+Menambahkan modifier `.once` pada event listener akan membuat event listerner hanya akan memantau event satu kali saja. Ini sangat berguna pada sesuatu yang dilakukan sekali saja, seperti meload partial (bagian) dari HTML, dan sebagainya.
 
-The `debounce` modifier allows you to "debounce" an event handler. In other words, the event handler will NOT run until a certain amount of time has elapsed since the last event that fired. When the handler is ready to be called, the last handler call will execute.
+**modifier `.passive`**
+**Contoh:** `<button x-on:mousedown.passive="interactive = true"></button>`
 
-The default debounce "wait" time is 250 milliseconds.
+Menambahkan modifier `.passive` pada event listener akan membuat event literner menjadi pasif, yang artinya `preventDefault()` tidak akan bekerja pada event yang sedang diproses. Ini tentunya bisa membantu meningkatkan performa, contohnya pada scoll di perangkat layar sentuh.
 
-If you wish to customize this, you can specifiy a custom wait time like so:
 
-```
+**Modifier `.debounce`**
+**Contoh:** `<input x-on:input.debounce="fetchSomething()">`
+
+Modifier `.debounce` memungkinkan anda untuk "debounce" sebuah event handler. Dengan kata lain, event handler TIDAK akan dijalankan sampai batas waktu tertentu.
+
+Nilai default debounce untuk "menunggu" adalah 250 milidetik.
+
+Jika anda ingin mengubahnya, anda hyga bisa menentukan waktu tunggu secara spesifik:
+
+```html
 <input x-on:input.debounce.750="fetchSomething()">
 <input x-on:input.debounce.750ms="fetchSomething()">
 ```
 
-**`.camel` modifier**
-**Example:** `<input x-on:event-name.camel="doSomething()">`
+**modifier `.camel`**
+**Contoh:** `<input x-on:event-name.camel="doSomething()">`
 
-The `camel` modifier will attach an event listener for the camel case equivalent event name. In the example above, the expression will be evaluated when the `eventName` event is fired on the element.
+Modifier `camel` akan melampirkan pemroses event untuk nama event yang setara dengan camelCase. Dalam contoh di atas, ekspresi akan dievaluasi ketika event `eventName` diaktifkan pada elemen.
+
 
 ---
 
 ### `x-model`
-**Example:** `<input type="text" x-model="foo">`
+**Contoh:** `<input type="text" x-model="foo">`
 
-**Structure:** `<input type="text" x-model="[data item]">`
+**Struktur:** `<input type="text" x-model="[data item]">`
 
-`x-model` adds "two-way data binding" to an element. In other words, the value of the input element will be kept in sync with the value of the data item of the component.
+`x-model` akan menambahkan "binding data dua arah" (two-way binding) pada sebauh elemen. Dengan kata lain, nilai dari elemen input akan tetap disinkronkan dengan nilai dari data item pada komponen.
 
-> Note: `x-model` is smart enough to detect changes on text inputs, checkboxes, radio buttons, textareas, selects, and multiple selects. It should behave [how Vue would](https://vuejs.org/v2/guide/forms.html) in those scenarios.
+> Catatan: `x-model` merupakan cara yang cukup cerdas untuk mendeteksi perubahan pada input text, checkbox, radio button, textarea, select, dan multiple select. Perilakunya sama seperti [cara yang dilakukan Vue](https://vuejs.org/v2/guide/forms.html) dalam skenario ini.
 
-**`.number` modifier**
-**Example:** `<input x-model.number="age">`
 
-The `number` modifier will convert the input's value to a number. If the value cannot be parsed as a valid number, the original value is returned.
 
-**`.debounce` modifier**
-**Example:** `<input x-model.debounce="search">`
+**Modifier `.number`**
+**Contoh:** `<input x-model.number="age">`
 
-The `debounce` modifier allows you to add a "debounce" to a value update. In other words, the event handler will NOT run until a certain amount of time has elapsed since the last event that fired. When the handler is ready to be called, the last handler call will execute.
+Modifier `.number` akan mengubah nilai input menjadi angka. Jika nilai tidak bisa diubah menjadi angka yang valid, maka nilainya akan dibiarkan dengan nilai yang diinputkan.
 
-The default debounce "wait" time is 250 milliseconds.
 
-If you wish to customize this, you can specifiy a custom wait time like so:
+**Modifier `.debounce`**
+**Contoh:** `<input x-model.debounce="search">`
 
-```
+Modifier `debounce` memungkinkan anda untuk menambahkan "debounce" pada update nilai. Dengan kata lain, event handler TIDAK akan dijalankan sampai batas waktu yang ditentukan.
+
+Nilai default pada waktu "tunggu" debounce adalah 250 milidetik.
+
+Jika anda ingin mengubahnya, anda juga bisa menentukan waktu tunggu secara spresifik:
+
+
+```html
 <input x-model.debounce.750="search">
 <input x-model.debounce.750ms="search">
 ```
@@ -432,68 +448,74 @@ If you wish to customize this, you can specifiy a custom wait time like so:
 ---
 
 ### `x-text`
-**Example:** `<span x-text="foo"></span>`
+**Contoh:** `<span x-text="foo"></span>`
 
-**Structure:** `<span x-text="[expression]"`
+**Struktur:** `<span x-text="[expression]"`
 
-`x-text` works similarly to `x-bind`, except instead of updating the value of an attribute, it will update the `innerText` of an element.
+`x-text` cara kerjannya mirip seperti `x-bind`, bedanya `x-text` akan melakukan update teks (`innerText`) pada sebuah elemen. Sedangkan `x-bind` hanya mengupdate nilai atribut.
 
 ---
 
 ### `x-html`
-**Example:** `<span x-html="foo"></span>`
+**Contoh:** `<span x-html="foo"></span>`
 
-**Structure:** `<span x-html="[expression]"`
+**Struktur:** `<span x-html="[expression]"`
 
-`x-html` works similarly to `x-bind`, except instead of updating the value of an attribute, it will update the `innerHTML` of an element.
+`x-html` cara kerjannya mirip seperti `x-bind`, bedanya `x-html` akan mengupdate kode HTML pada elemen sedangkan `x-bind` mengupdate nilai atribut.
 
-> :warning: **Only use on trusted content and never on user-provided content.** :warning:
+
+> :warning: **Jangan pernah gunakan pada konten yang berasal dari user.** :warning:
 >
-> Dynamically rendering HTML from third parties can easily lead to [XSS](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting) vulnerabilities.
+> Karena rendering HTML secara dinamis dari pihak ketiga berpotensi rentan terhadap serangan [XSS](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting).
+
 
 ---
 
 ### `x-ref`
-**Example:** `<div x-ref="foo"></div><button x-on:click="$refs.foo.innerText = 'bar'"></button>`
+**Contoh:** `<div x-ref="foo"></div><button x-on:click="$refs.foo.innerText = 'bar'"></button>`
 
-**Structure:** `<div x-ref="[ref name]"></div><button x-on:click="$refs.[ref name].innerText = 'bar'"></button>`
+**Struktur:** `<div x-ref="[ref name]"></div><button x-on:click="$refs.[ref name].innerText = 'bar'"></button>`
 
-`x-ref` provides a convenient way to retrieve raw DOM elements out of your component. By setting an `x-ref` attribute on an element, you are making it available to all event handlers inside an object called `$refs`.
+`x-ref` menyediakan cara yang mudah untuk mendapatkan elemen DOM dari luar komponen. Dengan memberikan atribut `x-ref` pada elemen, maka ini akan membuatnya bisa diakses dari semua event handler dari objek `$refs`.
 
-This is a helpful alternative to setting ids and using `document.querySelector` all over the place.
+Ini sangat berguna sebagai alternative penggunaan id dan `document.querySelector` pada semua tempat.
 
-> Note: you can also bind dynamic values for x-ref: `<span :x-ref="item.id"></span>` if you need to.
+
+> Catatan: anda juga bisa memberikan nilai dinamis pada x-ref: `<span :x-ref="item.id"></span>` jika anda menginginkannya.
+
 
 ---
 
 ### `x-if`
-**Example:** `<template x-if="true"><div>Some Element</div></template>`
+**Contoh:** `<template x-if="true"><div>Some Element</div></template>`
 
-**Structure:** `<template x-if="[expression]"><div>Some Element</div></template>`
+**Struktur:** `<template x-if="[expression]"><div>Some Element</div></template>`
 
-For cases where `x-show` isn't sufficient (`x-show` sets an element to `display: none` if it's false), `x-if` can be used to  actually remove an element completely from the DOM.
+Untuk kasus di mana `x-show` tidak cukup (`x-show` menyetel elemen ke `display: none` jika salah),` x-if` dapat digunakan untuk benar-benar menghapus elemen sepenuhnya dari DOM.
 
-It's important that `x-if` is used on a `<template></template>` tag because Alpine doesn't use a virtual DOM. This implementation allows Alpine to stay rugged and use the real DOM to work its magic.
+Penting bahwa `x-if` digunakan pada tag` <template></template>` karena Alpine tidak menggunakan DOM virtual. Implementasi ini memungkinkan Alpine untuk tetap bertahan dan menggunakan DOM asli untuk melakukan keajaibannya.
 
-> Note: `x-if` must have a single element root inside the `<template></template>` tag.
+> Catatan: `x-if` harus punya sebuah elemen root di dalam tag `<template></template>`.
 
-> Note: When using `template` in a `svg` tag, you need to add a [polyfill](https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538) that should be run before Alpine.js is initialized.
+> Catatan: Saat menggunakan `template` di tag `svg`, anda harus menambahkan sebuah [polyfill](https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538) yang akan dijalankan sebelum Alpine.js dipersiapkan.
+
 
 ---
 
 ### `x-for`
-**Example:**
+**Contoh:**
 ```html
 <template x-for="item in items" :key="item">
     <div x-text="item"></div>
 </template>
 ```
 
-> Note: the `:key` binding is optional, but HIGHLY recommended.
+> Catatan: binding `:key` bersifat opsional, tapi SANGAT disarankan menggunakannya.
 
-`x-for` is available for cases when you want to create new DOM nodes for each item in an array. This should appear similar to `v-for` in Vue, with one exception of needing to exist on a `template` tag, and not a regular DOM element.
+`x-for` bisa digunakan untuk kasus ketika anda ingin membuat elemen DOM baru dari setiap item pada array. Ini mirip seperti `v-for` pada Vue, namun dengan satu perbedaan yakni menggunakan tag `template`, bukan elemen DOM biasa.
 
-If you want to access the current index of the iteration, use the following syntax:
+Jika anda ingin mengakses current index dari iterasi, gunakan sintaks berikut:
+
 
 ```html
 <template x-for="(item, index) in items" :key="index">
@@ -502,7 +524,7 @@ If you want to access the current index of the iteration, use the following synt
 </template>
 ```
 
-If you want to access the array object (collection) of the iteration, use the following syntax:
+Jika anda ingin mengakses objek dari array (collection) dari iterasi, gunakan sintaks berikut:
 
 ```html
 <template x-for="(item, index, collection) in items" :key="index">
@@ -516,12 +538,14 @@ If you want to access the array object (collection) of the iteration, use the fo
 </template>
 ```
 
-> Note: `x-for` must have a single element root inside of the `<template></template>` tag.
+> Catatan: `x-for` harus punya sebauh elemen root di dalam tag `<template></template>`.
 
-> Note: When using `template` in a `svg` tag, you need to add a [polyfill](https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538) that should be run before Alpine.js is initialized.
+> Catatan: Saat menggunakan `template` di tag `svg`, anda harus menambahkan sebuah [polyfill](https://github.com/alpinejs/alpine/issues/637#issuecomment-654856538) yang akan dijalankan sebelum Alpine.js dipersiapkan.
 
-#### Nesting `x-for`s
-You can nest `x-for` loops, but you MUST wrap each loop in an element. For example:
+#### Perulangan bersarang dengan `x-for`
+
+Anda bisa membuat perulangan bersarang dengan `x-for`, namun anda HARUS membungkus tiap perulangan dengan elemen. Sebagai contoh:
+
 
 ```html
 <template x-for="item in items">
@@ -533,9 +557,9 @@ You can nest `x-for` loops, but you MUST wrap each loop in an element. For examp
 </template>
 ```
 
-#### Iterating over a range
+#### Iterasi dengan range
 
-Alpine supports the `i in n` syntax, where `n` is an integer, allowing you to iterate over a fixed range of elements.
+Alpine mendukung sintak `i in n`, dimana `n` adalah sebuah integer yang akan memungkinkan anda untuk melakukan iterasi pada elemen berdasarkan range yang sudah ditentukan.
 
 ```html
 <template x-for="i in 10">
@@ -546,7 +570,7 @@ Alpine supports the `i in n` syntax, where `n` is an integer, allowing you to it
 ---
 
 ### `x-transition`
-**Example:**
+**Contoh:**
 ```html
 <div
     x-show="open"
@@ -572,25 +596,25 @@ Alpine supports the `i in n` syntax, where `n` is an integer, allowing you to it
 </template>
 ```
 
-> The example above uses classes from [Tailwind CSS](https://tailwindcss.com)
+> Contoh di atas menggunakan class CSS dari [Tailwind CSS](https://tailwindcss.com)
 
-Alpine offers 6 different transition directives for applying classes to various stages of an element's transition between "hidden" and "shown" states. These directives work both with `x-show` AND `x-if`.
+Alpine memberikan 6 macam direktif transisi untuk menggunakan class tertentu pada tiap tahapan dalam transisi elemen antara state "hidden" dan "shown". Direktif ini dapat bekerja dengan `x-show` dan `x-if`.
 
-These behave exactly like VueJs's transition directives, except they have different, more sensible names:
+Perilakunya benar-benar sama seperti transisi pada VueJS, namun punya beberapa perbedaan dengan nama yang lebih masuk akal:
 
-| Directive | Description |
+| Direktif | Deksripsi |
 | --- | --- |
-| `:enter` | Applied during the entire entering phase. |
-| `:enter-start` | Added before element is inserted, removed one frame after element is inserted. |
-| `:enter-end` | Added one frame after element is inserted (at the same time `enter-start` is removed), removed when transition/animation finishes.
-| `:leave` | Applied during the entire leaving phase. |
-| `:leave-start` | Added immediately when a leaving transition is triggered, removed after one frame. |
-| `:leave-end` | Added one frame after a leaving transition is triggered (at the same time `leave-start` is removed), removed when the transition/animation finishes.
+| `:enter` | Digunakan selama dalam pase entering. |
+| `:enter-start` | Ditambahkan sebelum elemen dimasukkan, dihapus satu frame setelah elemen dimasukkan. |
+| `:enter-end` | Menambahkan satu frame setelah elemen dimasukkan (pada saat yang sama `enter-start` dihapus), dihapus ketika transisi/animasi selesai.
+| `:leave` | Digunakan sllama dalam pase leaving. |
+| `:leave-start` | Ditambahkan segera saat transisi leaving dipicu, hapus satu frame setelahnya |
+| `:leave-end` | Menambahkan satu frame setelah transisi leave dipicu (pada saat yang sama `leave-start` dihapus), dihapus ketika transisi/animasi selesai.
 
 ---
 
 ### `x-spread`
-**Example:**
+**Contoh:**
 ```html
 <div x-data="dropdown()">
     <button x-spread="trigger">Open Dropdown</button>
@@ -620,20 +644,22 @@ These behave exactly like VueJs's transition directives, except they have differ
 </script>
 ```
 
-`x-spread` allows you to extract an element's Alpine bindings into a reusable object.
 
-The object keys are the directives (Can be any directive including modifiers), and the values are callbacks to be evaluated by Alpine.
+`x-spread` memungkinkan anda untuk mengekstrak sebuah elmen dari binding Alpine menjadi objek yang bisa digunakan kembali.
 
-> Note: There are a couple of caveats to x-spread:
-> - When the directive being "spread" is `x-for`, you should return a normal expression string from the callback. For example: `['x-for']() { return 'item in items' }`.
-> - `x-data` and `x-init` can't be used inside a "spread" object
+Key dari object adalah direktif (bisa direktif dan juga modifier) dan nilainya merupakan callback yang akan dievaluasi oleh Alpine.
+
+> Catatan: Ada beberapa peringatan untuk x-spread:
+> - Saat "spread" dilakukan pada direktif `x-for`, anda harus mengembalikan string dari callback. Sebagai contoh: `['x-for']() { return 'item in items' }`.
+> - `x-data` dan `x-init` tidak bisa digunakan di dalam objek "spread"
 
 ---
 
 ### `x-cloak`
-**Example:** `<div x-data="{}" x-cloak></div>`
+**Contoh:** `<div x-data="{}" x-cloak></div>`
 
-`x-cloak` attributes are removed from elements when Alpine initializes. This is useful for hiding pre-initialized DOM. It's typical to add the following global style for this to work:
+Atribut `x-cloak` adalah elemen yang dihapus saat Aplpine dipersiapkan. Ini berguna untuk menyembunikan DOM yang sudah dipersiapkan sebelumnya. Biasanya untuk menambahkan style global seperti ini:
+
 
 ```html
 <style>
@@ -641,52 +667,53 @@ The object keys are the directives (Can be any directive including modifiers), a
 </style>
 ```
 
-### Magic Properties
+### Properti Ajaib
 
-> With the exception of `$el`, magic properties are **not available within `x-data`** as the component isn't initialized yet.
+> Properti ajaib **tidak tersedia di dalam** `x-data` jika komponen belum di-initialize, kecuali `$el`.
+
 
 ---
 
 ### `$el`
-**Example:**
+**Contoh:**
 ```html
 <div x-data>
     <button @click="$el.innerHTML = 'foo'">Replace me with "foo"</button>
 </div>
 ```
 
-`$el` is a magic property that can be used to retrieve the root component DOM node.
+`$el` adalah properti ajaib yang bisa digunakan untuk mendapatkan root komponen dari node DOM.
 
 ### `$refs`
-**Example:**
+**Contoh:**
 ```html
 <span x-ref="foo"></span>
 
 <button x-on:click="$refs.foo.innerText = 'bar'"></button>
 ```
 
-`$refs` is a magic property that can be used to retrieve DOM elements marked with `x-ref` inside the component. This is useful when you need to manually manipulate DOM elements.
+`$refs` adalah properti ajaib yang bisa digunakan untuk mendapatkan elemen DOM yang memiliki atribut `x-ref` di dalam komponen. Ini sangat berguna ketika anda ingin memanupulasi DOM secara manual.
 
 ---
 
 ### `$event`
-**Example:**
+**Contoh:**
 ```html
 <input x-on:input="alert($event.target.value)">
 ```
 
-`$event` is a magic property that can be used within an event listener to retrieve the native browser "Event" object.
+`$event` adalah properti ajaib yang bisa digunakan dengan event listener untuk mendapatkan objek "Event" dari browser.
 
-> Note: The $event property is only available in DOM expressions.
+> Catatan: Properti $event hanya tersedia pada eksrepsi DOM.
 
-If you need to access $event inside of a JavaScript function you can pass it in directly:
+Jika anda ingin mengakses `$event` di dalam fungsi Javascript, maka anda harus memasukannya sebagai parameter:
 
 `<button x-on:click="myFunction($event)"></button>`
 
 ---
 
 ### `$dispatch`
-**Example:**
+**Contoh:**
 ```html
 <div @custom-event="console.log($event.detail.foo)">
     <button @click="$dispatch('custom-event', { foo: 'bar' })">
@@ -694,11 +721,12 @@ If you need to access $event inside of a JavaScript function you can pass it in 
 </div>
 ```
 
-**Note on Event Propagation**
+**Catatan saat propagasi event**
 
-Notice that, because of [event bubbling](https://en.wikipedia.org/wiki/Event_bubbling), when you need to capture events dispatched from nodes that are under the same nesting hierarchy, you'll need to use the [`.window`](https://github.com/alpinejs/alpine#x-on) modifier:
+Perhatikan, karena ada [event bubbling](https://en.wikipedia.org/wiki/Event_bubbling) dan saat anda ingin mendapatkan event yang bersumber dari node dalam satu sarang (same nesting hirarchy) maka sebaiknya anda gunakan modifier [`.window`](https://github.com/alpinejs/alpine#x-on).
 
-**Example:**
+
+**Contoh:**
 
 ```html
 <div x-data>
@@ -707,13 +735,13 @@ Notice that, because of [event bubbling](https://en.wikipedia.org/wiki/Event_bub
 <div>
 ```
 
-> This won't work because when `custom-event` is dispatched, it'll propagate to its common ancestor, the `div`.
+> Ini tidak akan bekerja karena saat `custom-event` terjadi, maka propagasi akan dikirim ke `div`.
 
-**Dispatching to Components**
+**Pengiriman ke Komponen**
 
-You can also take advantage of the previous technique to make your components talk to each other:
+Anda juga bisa memanfaatkan teknik sebelumnya unuk membuat kompoen bisa saling berbicara.
 
-**Example:**
+**Contoh:**
 
 ```html
 <div x-data @custom-event.window="console.log($event.detail)"></div>
@@ -722,11 +750,11 @@ You can also take advantage of the previous technique to make your components ta
 <!-- When clicked, will console.log "Hello World!". -->
 ```
 
-`$dispatch` is a shortcut for creating a `CustomEvent` and dispatching it using `.dispatchEvent()` internally. There are lots of good use cases for passing data around and between components using custom events. [Read here](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events) for more information on the underlying `CustomEvent` system in browsers.
+`$dispatch` adalah sebuah singkatan untuk membuat `CustomEvent` dan mengirimkannya dengan `dispatchEvent()` secara internal. Ada banyak studi kasus penggunaan passing data antara komponen dengan custom event. [Silahkan baca di sini](https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events) untuk informasi lebih lanjut tentang cara kerja `CustomEvent` di browser.
 
-You will notice that any data passed as the second parameter to `$dispatch('some-event', { some: 'data' })`, becomes available through the new events "detail" property: `$event.detail.some`. Attaching custom event data to the `.detail` property is standard practice for `CustomEvent`s in browsers. [Read here](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail) for more info.
+Anda akan melihat bahwa setiap data yang diteruskan sebagai parameter kedua pada `$ dispatch('some-event', {some: 'data'})`, akan tersedia pada properti "detail" di event baru: `$event.detail.some`. Melampirkan data event khusus ke properti `.detail` adalah praktik standar untuk `CustomEvents` di browser. Baca [di sini](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/detail) untuk info lebih lanjut.
 
-You can also use `$dispatch()` to trigger data updates for `x-model` bindings. For example:
+Anda juga bisa menggunakan `$dispatch()` untuk memicu update data untuk binding `x-model`. Contohnya:
 
 ```html
 <div x-data="{ foo: 'bar' }">
@@ -737,16 +765,16 @@ You can also use `$dispatch()` to trigger data updates for `x-model` bindings. F
 </div>
 ```
 
-> Note: The $dispatch property is only available in DOM expressions.
+> Catatan: Properti $dispatch hanya tersedia pada eksrepsi DOM.
 
-If you need to access $dispatch inside of a JavaScript function you can pass it in directly:
+Jika anda ingin mengakses `$dispatch` di dalam fungsi javascript, anda bisa meneruskannya secara langsung melalui parameter:
 
 `<button x-on:click="myFunction($dispatch)"></button>`
 
 ---
 
 ### `$nextTick`
-**Example:**
+**Contoh:**
 ```html
 <div x-data="{ fruit: 'apple' }">
     <button
@@ -759,28 +787,29 @@ If you need to access $dispatch inside of a JavaScript function you can pass it 
 </div>
 ```
 
-`$nextTick` is a magic property that allows you to only execute a given expression AFTER Alpine has made its reactive DOM updates. This is useful for times you want to interact with the DOM state AFTER it's reflected any data updates you've made.
+`$nextTick` adalah properti ajaib yang memungkinkan anda untuk mengeksekusi hanya ekpresi yang diberikan SETELAH Alpine melakukan DOM update secara reaktif. Ini berguna pada saat Anda ingin berinteraksi dengan status DOM SETELAH itu tercermin setiap pembaruan data yang Anda buat.
 
 ---
 
 ### `$watch`
-**Example:**
+**Contoh:**
 ```html
 <div x-data="{ open: false }" x-init="$watch('open', value => console.log(value))">
     <button @click="open = ! open">Toggle Open</button>
 </div>
 ```
 
-You can "watch" a component property with the `$watch` magic method. In the above example, when the button is clicked and `open` is changed, the provided callback will fire and `console.log` the new value.
+Anda bisa "mengawasi" sebuah properti dari komponen dengan method ajaib `$watch`. Pada contoh di atas, saat tombol diklik dan nilai `open` berubah, maka callback akan dijalankan dengan mengeksekusi `console.log` dengan nilai yang baru.
 
-## Security
-If you find a security vulnerability, please send an email to [calebporzio@gmail.com]()
+## Keamanan
 
-Alpine relies on a custom implementation using the `Function` object to evaluate its directives. Despite being more secure then `eval()`, its use is prohibited in some environments, such as Google Chrome App, using restrictive Content Security Policy (CSP).
+Jika anda menemukan celah keamanan, mohon untuk mengirim email ke [calebporzio@gmail.com]()
 
-If you use Alpine in a website dealing with sensitive data and requiring [CSP](https://csp.withgoogle.com/docs/strict-csp.html), you need to include `unsafe-eval` in your policy. A robust policy correctly configured will help protecting your users when using personal or financial data.
+Alpine mengandalkan implementasi kustom yang menggunakan objek `Function` untuk mengevaluasi arahannya. Meskipun lebih aman daripada `eval()`, penggunaannya dilarang di beberapa lingkungan, seperti Aplikasi Google Chrome, menggunakan Kebijakan Keamanan Konten (CSP) yang terbatas.
 
-Since a policy applies to all scripts in your page, it's important that other external libraries included in the website are carefully reviewed to ensure that they are trustworthy and they won't introduce any Cross Site Scripting vulnerability either using the `eval()` function or manipulating the DOM to inject malicious code in your page.
+Jika Anda menggunakan Alpine di situs web yang berurusan dengan data sensitif dan membutuhkan [CSP](https://csp.withgoogle.com/docs/strict-csp.html), Anda perlu memasukkan `unsafe-eval` dalam kebijakan Anda. Kebijakan kuat yang dikonfigurasi dengan benar akan membantu melindungi pengguna Anda saat menggunakan data pribadi atau keuangan.
+
+Karena kebijakan berlaku untuk semua skrip di halaman Anda, penting agar pustaka eksternal lain yang termasuk dalam situs web ditinjau dengan cermat untuk memastikan bahwa mereka dapat dipercaya dan tidak akan menimbulkan kerentanan Cross Site Scripting baik menggunakan fungsi `eval()` atau memanipulasi DOM untuk memasukkan kode berbahaya ke halaman Anda.
 
 ## Roadmap V3
 * Move from `x-ref` to `ref` for Vue parity?
